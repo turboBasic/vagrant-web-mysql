@@ -1,0 +1,71 @@
+---
+
+
+- name: Install MySQL and packages
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  loop: "{{ packages }}"
+  tags:
+    - mysql
+
+
+- name: ensure mysql is running and starts on boot
+  service: name=mysql state=started enabled=true
+
+- name: update mysql root password for all root accounts
+  mysql_user: 
+    name: root 
+    host: "{{ item }}" 
+#    login_user: root 
+#    login_password: ''
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+    password: "{{ mysql.root_db_password }}" 
+    priv: '*.*:ALL,GRANT' 
+    check_implicit_admin: true
+  become: yes
+  loop:
+    - "{{ ansible_hostname }}"
+    - 127.0.0.1
+    - ::1
+    - localhost
+
+- name: copy .my.cnf file with root password credentials
+  template: src=my.cnf.j2 dest=/root/.my.cnf owner=root mode=0600
+
+
+- name: Remove all anonymous user accounts
+  mysql_user:
+    name: ""
+    host_all: yes
+    state: absent
+  tags:
+    - mysql
+
+# Update "root" user password and grant all permissions for all hosts
+# - name: Update "root" user password and grant all permissions for all hosts
+#   mysql_user:
+#     login_user: root # "{{ mysql.user }}"
+#     login_password: root # "{{ mysql.old_password }}"
+#     host: localhost              #"{{ item }}"
+#     check_implicit_admin: yes
+#     name: root # "{{ mysql.user }}"
+#     password: 123123 # "{{ mysql.new_password }}"
+#     priv: "*.*:ALL,GRANT"
+#     state: present
+# #  loop: "{{ mysql.hosts }}"
+#   tags:
+#     - mysql
+
+
+
+#- name: Restart MySQL
+#  command: /bin/true
+#  notify:
+#    - Restart MySQL
+#  tags:
+#    - mysql
+
+- service: name=mysql state=restarted
+  become: yes  

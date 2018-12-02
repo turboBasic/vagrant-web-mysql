@@ -1,0 +1,12 @@
+---
+# variables defined in group_vars/ directory  override variables defined here
+# variables defined in Vagrantfile  override variables defined here
+
+packages:
+  - apache2
+  - apache2-utils
+
+apache_version_status: present      # 'present' or 'latest'
+
+http_port: 80
+web_root: /var/www/html

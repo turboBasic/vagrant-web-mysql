@@ -1,0 +1,24 @@
+---
+
+- name: Add PPA for PHP
+  become: yes
+  apt_repository:
+    repo: ppa:ondrej/php
+    state: present
+    update_cache: yes
+
+- name: Ensure PHP is installed and upgraded if needed
+  become: yes
+  apt:
+    name: "{{ packages }}"
+    state: "{{ php_version_status }}"
+  notify: restart apache
+
+
+- name: Create php files
+  template:
+    src: "{{ item }}.php.j2"
+    dest: "{{ web_root }}/{{ item }}.php"
+  loop:
+    - index
+    - phpinfo

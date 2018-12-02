@@ -1,0 +1,16 @@
+---
+
+packages:
+  - libapache2-mod-php7.3
+  - php7.3
+  - php7.3-mysql
+  - php7.3-cli
+  - php7.3-common
+  - php7.3-curl
+  - php7.3-mbstring
+
+php_version_status: present         # ‘present’ / ‘latest’
+
+web_root: /var/www/html
+
+phpinfo_flags: "INFO_MODULES | INFO_VARIABLES"

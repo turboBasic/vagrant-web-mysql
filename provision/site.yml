@@ -1,0 +1,17 @@
+---
+
+- name: configure and deploy the webservers
+  hosts: webservers
+  become: yes
+
+  roles:
+    - apache
+    - php
+
+
+- name: configure and deploy database server
+  hosts: dbservers
+  become: yes
+
+  roles:
+    - mysql

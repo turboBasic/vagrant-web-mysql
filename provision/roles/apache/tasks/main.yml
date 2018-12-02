@@ -1,0 +1,31 @@
+---
+# Install Apache 2.4 web server
+
+- name: Add PPA for Apache 2
+  become: yes
+  apt_repository:
+    repo: ppa:ondrej/apache2
+    state: present
+    update_cache: yes
+
+
+- name: Ensure Apache is installed and upgraded if needed
+  become: yes
+  apt:
+    name: "{{ packages }}"
+    state: "{{ apache_version_status }}"
+  notify: restart apache
+
+
+- name: Create index.html
+  template:
+    src: index.html.j2
+    dest: "{{ web_root }}/index.html"
+
+
+- name: Ensure Apache is enabled and started
+  become: yes
+  service:
+    name: apache2
+    enabled: yes
+    state: started

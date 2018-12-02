@@ -1,0 +1,7 @@
+---
+# variables defined here override roles' variables
+# variables defined here override Vagrantfile's variables
+
+
+# http_port: 80
+# web_root: /var/www/html
