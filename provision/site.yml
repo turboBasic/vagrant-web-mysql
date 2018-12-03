@@ -3,15 +3,25 @@
 - name: configure and deploy the webservers
   hosts: webservers
   become: yes
-
   roles:
     - apache
     - php
+    - adminer
 
 
 - name: configure and deploy database server
   hosts: dbservers
   become: yes
-
   roles:
     - mysql
+
+
+- name: install adminer
+  hosts: webservers
+  become: yes
+  tasks:
+    - name: Download adminer
+      get_url:
+        url: https://github.com/vrana/adminer/releases/download/v4.7.0/adminer-4.7.0-mysql-en.php
+        dest: "{{ web_root }}/adminer.php"
+      tags: [ mysql, admin ]
