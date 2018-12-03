@@ -1,0 +1,7 @@
+{
+    "files.associations":  {
+        "all":  "yaml",
+        "dbservers": "yaml",
+        "webservers": "yaml"
+    }
+}
