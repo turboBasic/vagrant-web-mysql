@@ -6,9 +6,10 @@ packages:
   - python-pymysql
 
 mysql:
-  root_db_password: pASSWORD123123$
-  hosts:
+  root_db_password: REDACTED
+  remote_hosts:
     - "{{ ansible_hostname }}"
+    - '%'
     - 127.0.0.1
     - ::1
     - localhost

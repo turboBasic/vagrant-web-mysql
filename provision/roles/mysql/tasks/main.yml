@@ -6,8 +6,7 @@
     state: present
     update_cache: yes
   loop: "{{ packages }}"
-  tags:
-    - mysql
+  tags: mysql
 
 
 - name: Ensure mysql is running and starts on boot
@@ -26,7 +25,7 @@
     password:             "{{ mysql.root_db_password }}"
     priv:                 '*.*:ALL,GRANT'
     check_implicit_admin: true
-  loop: "{{ mysql.hosts }}"
+  loop: "{{ mysql.remote_hosts }}"
   become: yes
   notify: Restart MySQL
   tags: [ mysql ]
@@ -39,8 +38,7 @@
     owner: root
     mode: 0600
   notify: Restart MySQL
-  tags:
-    - mysql
+  tags: mysql
 
 
 - name: Remove all anonymous user accounts
@@ -49,5 +47,5 @@
     host_all: yes
     state: absent
   notify: Restart MySQL
-  tags:
-    - mysql
+  tags: mysql
+
