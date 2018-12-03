@@ -1,14 +1,12 @@
 ---
 
 - name: Add PPA for PHP
-  become: yes
   apt_repository:
     repo: ppa:ondrej/php
     state: present
     update_cache: yes
 
 - name: Ensure PHP is installed and upgraded if needed
-  become: yes
   apt:
     name: "{{ packages }}"
     state: "{{ php_version_status }}"

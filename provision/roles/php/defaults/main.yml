@@ -11,6 +11,4 @@ packages:
 
 php_version_status: present         # ‘present’ / ‘latest’
 
-web_root: /var/www/html
-
 phpinfo_flags: "INFO_MODULES | INFO_VARIABLES"
